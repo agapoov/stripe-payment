@@ -95,9 +95,12 @@ class OrderPaymentView(View):
                     item['tax_rates'] = [order.tax.stripe_tax_rate_id]
 
             session = stripe.checkout.Session.create(**session_data)
-            
+
+            order.status = 'paid'
+            order.save()
+
             return JsonResponse({'id': session.id})
-            
+
         except stripe.error.StripeError as e:
             return JsonResponse({'error': str(e)}, status=400)
 
