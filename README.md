@@ -98,3 +98,15 @@ docker-compose exec web python src/manage.py createsuperuser
 
 - Docker и Docker Compose
 - Stripe аккаунт (для получения API ключей)
+
+
+## Скриншоты
+
+![order](src/project_photo/order.png)
+
+![item](src/project_photo/item.png)
+
+![payment](src/project_photo/payment.png)
+
+![admin](src/project_photo/admin.png)
+
