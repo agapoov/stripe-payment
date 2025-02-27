@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Order {{ order.id }}</title>
+    <script src="https://js.stripe.com/v3/"></script>
+  </head>
+  <body>
+    <h1>Order {{ order.id }}</h1>
+    <p>Items:</p>
+    <ul>
+    {% for item in order.items.all %}
+        <li>{{ item.name }} - {{ item.price }} {{ item.currency }}</li>
+    {% endfor %}
+    </ul>
+    <p>Total: {{ order.get_total_amount }}</p>
+    <button id="buy-button" data-order-id="{{ order.id }}">Pay</button>
+
+    <script type="text/javascript">
+      var stripe = Stripe('{{ stripe_pub_key }}');
+      var buyButton = document.getElementById('buy-button');
+      var orderId = buyButton.getAttribute('data-order-id');
+
+      buyButton.addEventListener('click', function() {
+        fetch(`/order/${orderId}/pay/`, {method: 'GET'})
+          .then(response => response.json())
+          .then(session => stripe.redirectToCheckout({ sessionId: session.id }));
+      });
+    </script>
+  </body>
+</html> 
